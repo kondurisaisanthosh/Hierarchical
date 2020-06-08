@@ -8,6 +8,14 @@
 
 </head>
 <body >
+
+  <tbody><tr *ngFor="let org of orgs">
+    <td>{{org.organization_Id}}</td>
+    <td>{{org.organization_name}}</td>
+    <td>{{org.organization_UUID}}</td>
+    <td>{{response}}</td>
+  </tr></tbody>
+
    <div class="login ">
       <div >
          <div>
@@ -19,7 +27,7 @@
          <div class="form-group row">
             <label for="inputname" class="col-sm-3 col-form-label">Name</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control"  [(ngModel)]="inputName" name="inputName" id="inputname" placeholder="Enter Name">
+              <input type="text" class="form-control"  [(ngModel)]="username" name="username" id="inputname" placeholder="Enter Name">
             </div>
           </div>
           <div class="form-group row">
@@ -60,10 +68,8 @@
             </div>
           </div>
 
-
-          
          <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-block create-account">Register</button>
+            <button type="submit" class="btn btn-primary btn-block create-account" (click)="registerUser()" >Register</button>
         </div>
        
         <div class="row">

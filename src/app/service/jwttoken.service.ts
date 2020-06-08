@@ -7,6 +7,8 @@ import { HttpClient } from '@angular/common/http';
 export class JwttokenService {
 
 
+  baseUrl = "http://localhost:8080"
+
   token:any;
 
 

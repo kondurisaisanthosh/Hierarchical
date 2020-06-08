@@ -9,6 +9,8 @@ import { LoginComponent } from './login/login.component';
 import { from } from 'rxjs';
 import { RegisterComponent } from './register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { DataService } from './service/data.service';
+import { JwttokenService } from './service/jwttoken.service';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     HttpClientModule,
     FormsModule,
   ],
-  providers: [],
+  providers: [DataService,JwttokenService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
