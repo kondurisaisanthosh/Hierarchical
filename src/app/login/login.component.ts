@@ -37,9 +37,9 @@ export class LoginComponent implements OnInit {
         this.dataService.getUserType(this.userdata.username,this.auth).subscribe(type=>{
           console.log(type);
         })
-
       })
     });
+    loginform.reset();
   }
 
   
