@@ -15,7 +15,7 @@ export class JwttokenService {
   constructor(private _http:HttpClient) { }
 
   generateToken(user:any) {
-    this.authUrl="register/";
+    this.authUrl="authenticate";
     return this._http.post<string>(this.baseUrl+this.authUrl,user,{responseType: 'text' as 'json'});
   }
 

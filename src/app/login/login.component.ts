@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { collectExternalReferences } from '@angular/compiler';
 import { NgForm } from '@angular/forms';
 import { JwttokenService } from '../service/jwttoken.service';
+import { DataService } from '../service/data.service';
 
 @Component({
   selector: 'app-login',
@@ -10,10 +11,13 @@ import { JwttokenService } from '../service/jwttoken.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private _token:JwttokenService) { }
+  constructor(private _token:JwttokenService,private dataService:DataService) { }
 
   username: String;
   password: String;
+  type:any;
+  userdata:any;
+  auth:any;
 
   
   ngOnInit() {
@@ -24,10 +28,17 @@ export class LoginComponent implements OnInit {
     let newuser={
       "username":this.username,
       "password":this.password
-    };
+    }
     this._token.generateToken(newuser).subscribe(data=>{
-      console.log(data);
-      
+      this.auth=data;
+      this.dataService.getUser(data,this.username).subscribe(user=>{
+         this.userdata=user;
+         console.log(this.userdata)
+        this.dataService.getUserType(this.userdata.username,this.auth).subscribe(type=>{
+          console.log(type);
+        })
+
+      })
     });
   }
 }

@@ -15,33 +15,42 @@ export class RegisterComponent implements OnInit {
   constructor(private dataservice:DataService) { }
 
   orgs:organization;
+
   username:any;
   password:any;
+  email:any;
+  confirmPassword:any;
+  dob:any;
+  phone:any;
   response:string;
 
   ngOnInit() {
     this.dataservice.fetchOrgandModules().subscribe(data=>this.orgs=data);
+    
   }
 
   registerUser(){
+    if(this.confirmPassword===this.password){
+      let newuser={
+        "name":this.username,
+        "password":this.password,
+        "email":this.email,
+        "phone":this.phone,
+        "dob":this.dob
+        };
 
-    let newuser={
-      "username":this.username,
-      "password":this.password
-    };
-    
-    this.dataservice.registerNewUser(newuser).subscribe(data=>{
-      this.response=data;
-      console.log(this.response);
-    });
+        this.dataservice.registerNewUser(newuser).subscribe(data=>{
+          this.response=data;
+          alert(this.response);
+        });
 
-    
-
+    }else{
+      alert("passwords mismatch");
+    }
   }
-
-
   onSubmit(registerForm: NgForm) {
     console.log(registerForm.value);
+    registerForm.resetForm();
   }
 
 }
