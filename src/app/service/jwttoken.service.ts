@@ -7,15 +7,16 @@ import { HttpClient } from '@angular/common/http';
 export class JwttokenService {
 
 
-  baseUrl = "http://localhost:8080"
+  baseUrl = "http://localhost:8080/"
 
   token:any;
-
+  authUrl:any;
 
   constructor(private _http:HttpClient) { }
 
-  generateToken(auth: any) {
-    
+  generateToken(user:any) {
+    this.authUrl="register/";
+    return this._http.post<string>(this.baseUrl+this.authUrl,user,{responseType: 'text' as 'json'});
   }
 
 }

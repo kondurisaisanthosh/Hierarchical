@@ -15,11 +15,20 @@ export class LoginComponent implements OnInit {
   username: String;
   password: String;
 
+  
   ngOnInit() {
   }
 
   onSubmit(loginform: NgForm) {
     console.log(loginform.value);
+    let newuser={
+      "username":this.username,
+      "password":this.password
+    };
+    this._token.generateToken(newuser).subscribe(data=>{
+      console.log(data);
+      
+    });
   }
 }
 

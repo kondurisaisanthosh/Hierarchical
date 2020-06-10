@@ -8,16 +8,18 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { from } from 'rxjs';
 import { RegisterComponent } from './register/register.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { DataService } from './service/data.service';
 import { JwttokenService } from './service/jwttoken.service';
+import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    DashboardComponent,
+    UserDashboardComponent,
+    AdminDashboardComponent,
   ],
   imports: [
     BrowserModule,
