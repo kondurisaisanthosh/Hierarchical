@@ -36,10 +36,10 @@ export class LoginComponent implements OnInit {
          console.log(this.userdata)
         this.dataService.getUserType(this.userdata.username,this.auth).subscribe(type=>{
           console.log(type);
+          loginform.resetForm();
         })
       })
     });
-    loginform.reset();
   }
 
   
