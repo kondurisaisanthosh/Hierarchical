@@ -1,1 +1,4 @@
-<p>Admin Dashboard</p>
+<p (click)="getAllOrgs()">Admin Dashboard</p>
+<div *ngFor="let orgs of organizations">
+    <div>{{orgs.organization_name}}</div>
+</div>

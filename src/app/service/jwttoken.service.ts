@@ -18,5 +18,4 @@ export class JwttokenService {
     this.authUrl="authenticate";
     return this._http.post<string>(this.baseUrl+this.authUrl,user,{responseType: 'text' as 'json'});
   }
-
 }

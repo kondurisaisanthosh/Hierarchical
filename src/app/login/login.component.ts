@@ -44,6 +44,7 @@ export class LoginComponent implements OnInit {
     this._token.generateToken(newuser).subscribe(data=>{
       this.auth=data;
       console.log(this.auth);
+      localStorage.setItem('authKey','Bearer '+this.auth);
       this.dataService.getUser(data,this.username).subscribe(user=>{
          this.userdata=user;
          console.log(this.userdata.type)

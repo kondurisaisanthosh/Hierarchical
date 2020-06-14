@@ -31,6 +31,17 @@ export class DataService {
     return this.currentUserSubject.value;
 }
 
+  getOrganization(auth:any){
+    console.log("test" + auth);
+    let orgUrl=this.baseUrl+'/organization/allOrganizations';
+    return this._http.get<any>(orgUrl,{
+      headers:{
+        'Content-Type':'application/json',
+        'Authorization':auth
+      }
+    })
+  }
+
   getUser(auth:any,name:any){
     let loginUrl=this.baseUrl+'/user/getUserdata';
     return this._http.get(loginUrl,{
@@ -54,7 +65,7 @@ export class DataService {
 
   logout() {
     // remove user from local storage to log user out
-    localStorage.removeItem('currentUser');
+    localStorage.clear();
     this.currentUserSubject.next(null);
 }
 }

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from '../service/data.service';
+import { JwttokenService } from '../service/jwttoken.service';
+import { organization } from '../bean/orgnaization';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -7,9 +10,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminDashboardComponent implements OnInit {
 
-  constructor() { }
+  organizations:organization;
+  constructor(private dataService :DataService,private jwtService :JwttokenService) { }
 
   ngOnInit() {
+    this.getAllOrgs();
+  }
+
+  getAllOrgs(){
+    this.dataService.getOrganization(<any>localStorage.getItem('authKey')).subscribe(org=>{
+      this.organizations=org;
+      console.log(JSON.stringify(this.organizations));
+    })
   }
 
 }
