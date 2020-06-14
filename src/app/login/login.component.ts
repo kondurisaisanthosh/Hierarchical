@@ -25,7 +25,13 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.currentUser = this.dataService.currentUserValue;
     if(this.currentUser){
-      
+      if(this.currentUser['type']==1){
+        this.router.navigate(["/user"]);
+      }else{
+        this.router.navigate(["/admin"]);
+      }
+    }else{
+      this.router.navigate(["/login"]);
     }
   }
 
