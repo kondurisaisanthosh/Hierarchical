@@ -3,6 +3,7 @@ import { collectExternalReferences } from '@angular/compiler';
 import { NgForm } from '@angular/forms';
 import { JwttokenService } from '../service/jwttoken.service';
 import { DataService } from '../service/data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,8 +11,9 @@ import { DataService } from '../service/data.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  currentUser: import("/Users/santoshkonduri/Downloads/Hierarchical/src/app/bean/userDetails").userDetails;
 
-  constructor(private _token:JwttokenService,private dataService:DataService) { }
+  constructor(private _token:JwttokenService,private dataService:DataService,private router: Router) { }
 
   username: String;
   password: String;
@@ -21,6 +23,10 @@ export class LoginComponent implements OnInit {
 
   
   ngOnInit() {
+    this.currentUser = this.dataService.currentUserValue;
+    if(this.currentUser){
+      
+    }
   }
 
   onSubmit(loginform: NgForm) {
@@ -34,11 +40,14 @@ export class LoginComponent implements OnInit {
       console.log(this.auth);
       this.dataService.getUser(data,this.username).subscribe(user=>{
          this.userdata=user;
-         console.log(this.userdata)
-        this.dataService.getUserType(this.userdata.username,this.auth).subscribe(type=>{
-          console.log(type);
-          loginform.resetForm();
-        })
+         console.log(this.userdata.type)
+         if(this.userdata.type==1){
+           this.router.navigate(["user"]);
+         }else{
+          this.router.navigate(["admin"]);
+         }
+        //  console.log(this.userdata)
+         loginform.resetForm();
       })
     });
   }

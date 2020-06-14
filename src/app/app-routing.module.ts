@@ -4,14 +4,32 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { AuthGuard } from './auth.guard';
 
 
 const routes: Routes = [
-  {path:'',component:LoginComponent},
-  {path:'login',component:LoginComponent},
-  {path:'register',component:RegisterComponent},
-  {path:'user',component:UserDashboardComponent},
-  {path:'admin',component:AdminDashboardComponent}
+  {
+    path:'',component:LoginComponent
+  },
+  {
+    path:'login',redirectTo: '' 
+  },
+  {
+    path:'register',component:RegisterComponent
+  },
+  {
+    path:'user',
+    component:UserDashboardComponent,
+    canActivate: [AuthGuard],
+    data: { type: 1}
+  },
+  {
+    path:'admin',
+    component : AdminDashboardComponent,
+    canActivate: [AuthGuard],     
+    data: { type: 0}
+  },
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

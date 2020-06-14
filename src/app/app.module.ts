@@ -12,6 +12,7 @@ import { DataService } from './service/data.service';
 import { JwttokenService } from './service/jwttoken.service';
 import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,10 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
     HttpClientModule,
     FormsModule,
   ],
-  providers: [DataService,JwttokenService],
+  providers: [DataService,JwttokenService, {
+    provide: 'AuthGuard',
+    useValue: (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

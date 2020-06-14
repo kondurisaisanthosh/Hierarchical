@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { DataService } from '../service/data.service';
-import { organization } from '../bean/organization';
-import { user } from '../bean/user';
 
 @Component({
   selector: 'app-register',
@@ -13,9 +11,6 @@ import { user } from '../bean/user';
 export class RegisterComponent implements OnInit {
 
   constructor(private dataservice:DataService) { }
-
-  orgs:organization;
-
   username:any;
   password:any;
   email:any;
@@ -25,7 +20,6 @@ export class RegisterComponent implements OnInit {
   response:string;
 
   ngOnInit() {
-    this.dataservice.fetchOrgandModules().subscribe(data=>this.orgs=data);
     
   }
 

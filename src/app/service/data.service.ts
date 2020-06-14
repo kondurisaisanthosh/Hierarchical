@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { user } from '../bean/user';
+import { map } from 'rxjs/operators';
+import { userDetails } from '../bean/userDetails';
+import { Observable, BehaviorSubject } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
@@ -8,12 +12,14 @@ import { user } from '../bean/user';
 export class DataService {
 
   baseUrl = "http://localhost:8080"
-
-  constructor(private _http:HttpClient) { }
-
-  fetchOrgandModules() {
-    let url = this.baseUrl + "/organization/viewOrg";
-    return this._http.get<any>(url);
+  
+  currentUserSubject: any;
+  public currentUser: Observable<userDetails>;
+  userDetails: any;
+  
+  constructor(private _http:HttpClient) { 
+    this.currentUserSubject = new BehaviorSubject<userDetails>(JSON.parse(localStorage.getItem('currentUser')));
+    this.currentUser = this.currentUserSubject.asObservable();
   }
 
   registerNewUser(userObj:any){
@@ -21,6 +27,10 @@ export class DataService {
     console.log("user "+JSON.stringify(userObj));
     return this._http.post<string>(regurl,userObj,{responseType: 'text' as 'json'});
   }
+  public get currentUserValue(): userDetails {
+    return this.currentUserSubject.value;
+}
+
   getUser(auth:any,name:any){
     let loginUrl=this.baseUrl+'/user/getUserdata';
     return this._http.get(loginUrl,{
@@ -31,21 +41,20 @@ export class DataService {
         'Content-Type':'application/json',
         'Authorization':'Bearer '+auth
       }
-   });
-  }
-
-  getUserType(name:any,auth:any){
-    let typeUrl=this.baseUrl+'/userType';
-    return this._http.get(typeUrl,{
-      params:{
-        username:name
-      },
-      headers:{
-        'Content-Type':'application/json',
-        'Authorization':'Bearer '+auth
+   }).pipe(map(user=>{
+      this.userDetails=user;
+      console.log(this.userDetails);
+      if(this.userDetails){
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        this.currentUserSubject.next(user);
       }
-    })
-
+      return user;
+   }))
   }
 
+  logout() {
+    // remove user from local storage to log user out
+    localStorage.removeItem('currentUser');
+    this.currentUserSubject.next(null);
+}
 }
