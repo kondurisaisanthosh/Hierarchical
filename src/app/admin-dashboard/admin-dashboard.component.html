@@ -1,4 +1,45 @@
-<p (click)="getAllOrgs()">Admin Dashboard</p>
-<div *ngFor="let orgs of organizations">
-    <div>{{orgs.organization_name}}</div>
+<p (click)="getAllOrgs()">Click me .... Admin Dashboard</p>
+<div class="bs-example">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Row</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let orgs of organizations">
+            <tr>
+                <td>{{orgs.organization_UUID}}</td>
+                <td>{{orgs.organization_Id}}</td>
+                <td>{{orgs.organization_name}}</td>
+                <td><button type="button" class="btn btn-primary" data-toggle="modal" (click)="currentOrg(orgs)" data-target="#exampleModalLong">
+                    View
+                  </button></td>
+            </tr>         
+        </tbody>
+    </table>
 </div>
+
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Org Details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>{{currentOrgs.organization_UUID}}</p>
+          <p>{{currentOrgs.organization_Id}}</p>
+          <p>{{currentOrgs.organization_name}}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>

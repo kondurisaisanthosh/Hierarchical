@@ -11,6 +11,7 @@ import { organization } from '../bean/orgnaization';
 export class AdminDashboardComponent implements OnInit {
 
   organizations:organization;
+  currentOrgs: organization;
   constructor(private dataService :DataService,private jwtService :JwttokenService) { }
 
   ngOnInit() {
@@ -22,6 +23,10 @@ export class AdminDashboardComponent implements OnInit {
       this.organizations=org;
       console.log(JSON.stringify(this.organizations));
     })
+  }
+
+  currentOrg(orgs:organization){
+    this.currentOrgs = orgs;
   }
 
 }
