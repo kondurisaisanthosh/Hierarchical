@@ -14,7 +14,7 @@ export class AdminDashboardComponent implements OnInit {
   constructor(private dataService :DataService,private jwtService :JwttokenService) { }
 
   ngOnInit() {
-    this.getAllOrgs();
+    // this.getAllOrgs();
   }
 
   getAllOrgs(){
