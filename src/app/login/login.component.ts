@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { JwttokenService } from '../service/jwttoken.service';
 import { DataService } from '../service/data.service';
 import { Router } from '@angular/router';
+import { ErrorHandlerService } from '../service/error-handler.service';
 
 @Component({
   selector: 'app-login',
@@ -13,13 +14,14 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   currentUser: import("/Users/santoshkonduri/Downloads/Hierarchical/src/app/bean/userDetails").userDetails;
 
-  constructor(private _token:JwttokenService,private dataService:DataService,private router: Router) { }
+  constructor(private _token:JwttokenService,private dataService:DataService,private router: Router,private errorHandler: ErrorHandlerService) { }
 
   username: String;
   password: String;
   type:any;
   userdata:any;
   auth:any;
+  errorMessage:String=''
 
   
   ngOnInit() {
@@ -56,7 +58,10 @@ export class LoginComponent implements OnInit {
         //  console.log(this.userdata)
          loginform.resetForm();
       })
-    });
+    }),(error) => {
+      this.errorHandler.handleError(error);
+      this.errorMessage = this.errorHandler.errorMessage;
+    }
   }
 }
 
