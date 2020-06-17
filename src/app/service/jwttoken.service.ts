@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class JwttokenService {
-
-
-  baseUrl = "http://localhost:8080/"
 
   token:any;
   authUrl:any;
@@ -16,6 +14,6 @@ export class JwttokenService {
 
   generateToken(user:any) {
     this.authUrl="authenticate";
-    return this._http.post<string>(this.baseUrl+this.authUrl,user,{responseType: 'text' as 'json'});
+    return this._http.post<string>(`${environment.apiUrl}/${this.authUrl}`,user,{responseType: 'text' as 'json'});
   }
 }

@@ -4,6 +4,7 @@ import { user } from '../bean/user';
 import { map } from 'rxjs/operators';
 import { userDetails } from '../bean/userDetails';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
@@ -11,8 +12,6 @@ import { Observable, BehaviorSubject } from 'rxjs';
 })
 export class DataService {
 
-  baseUrl = "http://localhost:8080"
-  
   currentUserSubject: any;
   public currentUser: Observable<userDetails>;
   userDetails: any;
@@ -23,7 +22,7 @@ export class DataService {
   }
 
   registerNewUser(userObj:any){
-    let regurl = this.baseUrl + "/register";
+    let regurl = `${environment.apiUrl}/register`;
     console.log("user "+JSON.stringify(userObj));
     return this._http.post<string>(regurl,userObj,{responseType: 'text' as 'json'});
   }
@@ -33,7 +32,7 @@ export class DataService {
 
   getOrganization(auth:any){
     console.log("test" + auth);
-    let orgUrl=this.baseUrl+'/organization/allOrganizations';
+    let orgUrl=`${environment.apiUrl}/organization/allOrganizations`;
     return this._http.get<any>(orgUrl,{
       headers:{
         'Content-Type':'application/json',
@@ -43,7 +42,7 @@ export class DataService {
   }
 
   getUser(auth:any,name:any){
-    let loginUrl=this.baseUrl+'/user/getUserdata';
+    let loginUrl=`${environment.apiUrl}/user/getUserdata`;
     return this._http.get(loginUrl,{
       params:{
         username:name
