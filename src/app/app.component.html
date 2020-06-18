@@ -6,7 +6,8 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="/" *ngIf="isAdmin()">Users </a>
+          <a  class="nav-link" [routerLink]="['/admin-users']" routerLinkActive="router-link-active" *ngIf="isAdmin()">Users </a>
+
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
@@ -14,4 +15,6 @@
       </form>
     </div>
   </nav>
-<router-outlet></router-outlet>
+<main [@routeAnimations]=prepareRoute(outlet) class="content">
+  <router-outlet #outlet="outlet"></router-outlet>
+</main>

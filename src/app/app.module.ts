@@ -13,6 +13,8 @@ import { JwttokenService } from './service/jwttoken.service';
 import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { AdminUsersComponent } from './admin-users/admin-users.component'
 
 @NgModule({
   declarations: [
@@ -21,9 +23,11 @@ import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
     RegisterComponent,
     UserDashboardComponent,
     AdminDashboardComponent,
+    AdminUsersComponent,
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,

@@ -5,6 +5,7 @@ import { RegisterComponent } from './register/register.component';
 import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { AuthGuard } from './auth.guard';
+import { AdminUsersComponent } from './admin-users/admin-users.component';
 
 
 const routes: Routes = [
@@ -27,8 +28,15 @@ const routes: Routes = [
     path:'admin',
     component : AdminDashboardComponent,
     canActivate: [AuthGuard],     
-    data: { type: 0}
+    data: { type: 0,animation:'home'}
   },
+  {
+    path:'admin-users',
+    component : AdminUsersComponent,
+    canActivate: [AuthGuard],     
+    data: { type: 0,animation:'users'}
+  },
+  
   { path: '**', redirectTo: '' }
 ];
 
