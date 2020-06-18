@@ -19,6 +19,10 @@ export class AppComponent {
         this.dataService.currentUser.subscribe(x => this.currentUser = x);
     }
 
+   isAdmin(){
+     return !(this.currentUser['type']);
+   }
+
     logout() {
         this.dataService.logout();
         this.router.navigate(['/login']);
