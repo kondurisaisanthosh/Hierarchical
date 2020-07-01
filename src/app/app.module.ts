@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -19,6 +19,8 @@ import { BnNgIdleService } from 'bn-ng-idle';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { MomentModule } from 'angular2-moment'; 
+import { ErrorInterceptor } from './error-interceptor';
+import { AuthInterceptor } from './login/auth-interceptor';
 
 
 @NgModule({
@@ -40,10 +42,11 @@ import { MomentModule } from 'angular2-moment';
     MomentModule,
     ModalModule.forRoot(),
   ],
-  providers: [BnNgIdleService,DataService,JwttokenService, {
-    provide: 'AuthGuard',
-    useValue: (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => true
-  }],
+  providers: [BnNgIdleService,DataService,JwttokenService, 
+    { provide: 'AuthGuard', useValue: (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => true},
+    // { provide:HTTP_INTERCEPTORS,useClass:ErrorInterceptor,multi:true},
+    { provide:HTTP_INTERCEPTORS,useClass:AuthInterceptor,multi:true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

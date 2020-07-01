@@ -83,7 +83,6 @@ export class AppComponent {
         idle.stop();
       }
     })
-
     // this.reset();
   }
 
@@ -115,7 +114,3 @@ export class AppComponent {
    }
 
 }
-  
- 
-    
-

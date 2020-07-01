@@ -20,7 +20,6 @@
   <router-outlet #outlet="outlet"></router-outlet>
 </main>
 
-
 <div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1"
      role="dialog" aria-labelledby="dialog-child-name">
   <div class="modal-dialog modal-md">
@@ -33,7 +32,7 @@
       </div>
       <div class="modal-body">
          {{idleState}}
-        <div class="row mrgbtm">
+        <div class="row ">
           <div class="col-md-6">
               <button type="button" (click)="logout()" class="btn btn-danger">Logout</button>
           </div>

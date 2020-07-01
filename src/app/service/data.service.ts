@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { user } from '../bean/user';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { userDetails } from '../bean/userDetails';
-import { Observable, BehaviorSubject, Subject } from 'rxjs';
+import { Observable, BehaviorSubject, Subject, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { BnNgIdleService } from 'bn-ng-idle';
 
@@ -18,7 +18,7 @@ export class DataService {
   public currentUser: Observable<userDetails>;
   userDetails: any;
   
-  constructor(private _http:HttpClient,private bnIdle: BnNgIdleService,) { 
+  constructor(private _http:HttpClient) { 
     this.userLoggedIn.next(false);
 
     this.currentUserSubject = new BehaviorSubject<userDetails>(JSON.parse(localStorage.getItem('currentUser')));
@@ -38,12 +38,7 @@ export class DataService {
   getOrganization(auth:any){
     console.log("test" + auth);
     let orgUrl=`${environment.apiUrl}/organization/allOrganizations`;
-    return this._http.get<any>(orgUrl,{
-      headers:{
-        'Content-Type':'application/json',
-        'Authorization':auth
-      }
-    })
+    return this._http.get<any>(orgUrl)
   }
 
   getUser(auth:any,name:any){
@@ -51,10 +46,6 @@ export class DataService {
     return this._http.get(loginUrl,{
       params:{
         username:name
-      },
-      headers: {
-        'Content-Type':'application/json',
-        'Authorization':'Bearer '+auth
       }
    }).pipe(map(user=>{
       this.userDetails=user;
@@ -64,7 +55,11 @@ export class DataService {
         this.currentUserSubject.next(user);
       }
       return user;
-   }))
+   })).pipe(catchError(this.handleError));
+  }
+
+  handleError(error){
+    return throwError("santhosh");
   }
 
   setUserLoggedIn(userLoggedIn: boolean) {

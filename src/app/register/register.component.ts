@@ -36,7 +36,9 @@ export class RegisterComponent implements OnInit {
         this.dataservice.registerNewUser(newuser).subscribe(data=>{
           this.response=data;
           alert(this.response);
-        });
+        }),(error)=>{
+          console.log(error);
+        };
 
     }else{
       alert("passwords mismatch");

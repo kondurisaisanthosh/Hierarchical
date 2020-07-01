@@ -25,13 +25,14 @@ const routes: Routes = [
     path:'admin',
     component : AdminDashboardComponent,
     canActivate: [AuthGuard],     
-    data: { type: 0,animation:'home'}
+    // data: { type: 0,animation:'home'}
+    data: { type: 0}
   },
   {
     path:'admin-users',
     component : AdminUsersComponent,
     canActivate: [AuthGuard],     
-    data: { type: 0,animation:'users'}
+    data: { type: 0}
   },
 
   { path: '**', redirectTo: '' }

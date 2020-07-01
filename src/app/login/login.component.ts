@@ -58,13 +58,12 @@ export class LoginComponent implements OnInit {
            this.dataService.setUserLoggedIn(true);
           this.router.navigate(["admin"]);
          }
-        //  console.log(this.userdata)
          loginform.resetForm();
       })
-    }),(error) => {
-      this.errorHandler.handleError(error);
-      this.errorMessage = this.errorHandler.errorMessage;
-    }
+    },(error)=>{
+      console.log("error");
+      this.errorMessage=error;
+    })
   }
 }
 
