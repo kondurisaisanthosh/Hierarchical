@@ -27,6 +27,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.currentUser = this.dataService.currentUserValue;
     if(this.currentUser){
+      this.dataService.setUserLoggedIn(true);
       if(this.currentUser['type']==1){
         this.router.navigate(["/user"]);
       }else{
@@ -51,8 +52,10 @@ export class LoginComponent implements OnInit {
          this.userdata=user;
          console.log(this.userdata.type)
          if(this.userdata.type==1){
+          this.dataService.setUserLoggedIn(true);
            this.router.navigate(["user"]);
          }else{
+           this.dataService.setUserLoggedIn(true);
           this.router.navigate(["admin"]);
          }
         //  console.log(this.userdata)

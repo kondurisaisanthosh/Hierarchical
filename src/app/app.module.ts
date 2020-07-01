@@ -14,7 +14,12 @@ import { UserDashboardComponent } from './user-dashboard/user-dashboard.componen
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import { AdminUsersComponent } from './admin-users/admin-users.component'
+import { AdminUsersComponent } from './admin-users/admin-users.component';
+import { BnNgIdleService } from 'bn-ng-idle';
+import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { MomentModule } from 'angular2-moment'; 
+
 
 @NgModule({
   declarations: [
@@ -31,8 +36,11 @@ import { AdminUsersComponent } from './admin-users/admin-users.component'
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    NgIdleKeepaliveModule.forRoot(),
+    MomentModule,
+    ModalModule.forRoot(),
   ],
-  providers: [DataService,JwttokenService, {
+  providers: [BnNgIdleService,DataService,JwttokenService, {
     provide: 'AuthGuard',
     useValue: (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => true
   }],

@@ -20,11 +20,11 @@ export const fader=
                 ], { optional: true }),
                 query(':leave', [
                     style({ transform: 'translateX(0%)' }),
-                    animate('1.2s ease-in-out', style({ transform: 'translateX(-150%)' }))
+                    animate('1s ease-in-out', style({ transform: 'translateX(-150%)' }))
                 ], { optional: true }),
             ])
         ]),
-         transition('home <=> users', [
+        transition('home <=> users', [
             query(':enter, :leave', style({ position: 'fixed', width: '100%' }), { optional: true }),
             group([
                 query(':enter', [
@@ -33,8 +33,21 @@ export const fader=
                 ], { optional: true }),
                 query(':leave', [
                     style({ transform: 'translateX(0%)' }),
-                    animate('1.2s ease-in-out', style({ transform: 'translateX(-150%)' }))
+                    animate('1s ease-in-out', style({ transform: 'translateX(-150%)' }))
                 ], { optional: true }),
             ])
         ]),
+        //  transition('home <=> users', [
+        //     query(':enter, :leave', style({ position: 'fixed', width: '100%' }), { optional: true }),
+        //     group([
+        //         query(':enter', [
+        //             style({ transform: 'translateX(100%)' }),
+        //             animate('1.2s ease-in-out', style({ transform: 'translateX(0%)' }))
+        //         ], { optional: true }),
+        //         query(':leave', [
+        //             style({ transform: 'translateX(0%)' }),
+        //             animate('1.2s ease-in-out', style({ transform: 'translateX(-150%)' }))
+        //         ], { optional: true }),
+        //     ])
+        // ]),
     ])

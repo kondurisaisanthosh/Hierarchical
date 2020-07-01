@@ -1,5 +1,6 @@
-  <nav class="navbar navbar-expand-lg navbar-light bg-primary" *ngIf="currentUser">
-    <a class="navbar-brand" href="/">Home</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-primary" *ngIf="currentUser">
+    <a class="navbar-brand" href="/admin" *ngIf="isAdmin()">Home</a>
+    <a class="navbar-brand" href="/user" *ngIf="!isAdmin()">Home</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -11,10 +12,34 @@
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
-        <button class="btn btn-outline-danger my-2 my-sm-0" type="button" (click)="logout()">Logout</button>
+        <button class="btn btn-danger my-2 my-sm-0" type="button" (click)="logout()">Logout</button>
       </form>
     </div>
   </nav>
 <main [@routeAnimations]=prepareRoute(outlet) class="content">
   <router-outlet #outlet="outlet"></router-outlet>
 </main>
+<div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1"
+     role="dialog" aria-labelledby="dialog-child-name">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-child-name" class="modal-title pull-left">You Have Been Idle!</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="hideChildModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+         {{idleState}}
+        <div class="row mrgbtm">
+          <div class="col-md-6">
+              <button type="button" (click)="logout()" class="btn btn-danger">Logout</button>
+          </div>
+          <div class="col-md-6">
+              <button type="button" (click)="stay()" class="btn btn-success">Stay</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

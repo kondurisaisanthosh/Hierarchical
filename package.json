@@ -20,13 +20,18 @@
     "@angular/platform-browser": "~8.2.11",
     "@angular/platform-browser-dynamic": "~8.2.11",
     "@angular/router": "~8.2.11",
+    "bn-ng-idle": "^1.0.1",
     "bootstrap": "^4.5.0",
     "browserslist": "^4.12.0",
     "caniuse-lite": "^1.0.30001084",
     "jquery": "^3.5.1",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
-    "zone.js": "~0.9.1"
+    "zone.js": "~0.9.1",
+    "@ng-idle/core": "^8.0.0-beta.4",
+    "@ng-idle/keepalive": "^8.0.0-beta.4",
+    "angular2-moment": "^1.9.0",
+    "ngx-bootstrap": "^5.1.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.803.27",

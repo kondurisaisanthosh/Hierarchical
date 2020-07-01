@@ -9,15 +9,12 @@ import { AdminUsersComponent } from './admin-users/admin-users.component';
 
 
 const routes: Routes = [
-  {
-    path:'',component:LoginComponent
-  },
-  {
-    path:'login',redirectTo: '' 
-  },
-  {
-    path:'register',component:RegisterComponent
-  },
+  { path:'',component:LoginComponent },
+
+  { path:'login',redirectTo: '' },
+
+  { path:'register',component:RegisterComponent},
+ 
   {
     path:'user',
     component:UserDashboardComponent,
@@ -36,7 +33,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],     
     data: { type: 0,animation:'users'}
   },
-  
+
   { path: '**', redirectTo: '' }
 ];
 
@@ -44,4 +41,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
+
 export class AppRoutingModule { }

@@ -3,22 +3,27 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { user } from '../bean/user';
 import { map } from 'rxjs/operators';
 import { userDetails } from '../bean/userDetails';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
-
+import { BnNgIdleService } from 'bn-ng-idle';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
+  private userLoggedIn = new Subject<boolean>();
+
   currentUserSubject: any;
   public currentUser: Observable<userDetails>;
   userDetails: any;
   
-  constructor(private _http:HttpClient) { 
+  constructor(private _http:HttpClient,private bnIdle: BnNgIdleService,) { 
+    this.userLoggedIn.next(false);
+
     this.currentUserSubject = new BehaviorSubject<userDetails>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
+
   }
 
   registerNewUser(userObj:any){
@@ -60,6 +65,14 @@ export class DataService {
       }
       return user;
    }))
+  }
+
+  setUserLoggedIn(userLoggedIn: boolean) {
+    this.userLoggedIn.next(userLoggedIn);
+  }
+
+  getUserLoggedIn(): Observable<boolean> {
+    return this.userLoggedIn.asObservable();
   }
 
   logout() {
