@@ -21,6 +21,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { MomentModule } from 'angular2-moment'; 
 import { ErrorInterceptor } from './error-interceptor';
 import { AuthInterceptor } from './login/auth-interceptor';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { AuthInterceptor } from './login/auth-interceptor';
     UserDashboardComponent,
     AdminDashboardComponent,
     AdminUsersComponent,
+    SpinnerComponent,
   ],
   imports: [
     BrowserModule,

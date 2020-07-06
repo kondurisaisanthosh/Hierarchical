@@ -1,29 +1,48 @@
-
-   <div class="login ">
+<div class="alert alert-danger" style="text-align: center;" *ngIf="errorOccured">
+  <p>{{errorMessage}}</p>
+</div>
+<div class="login ">
       <div >
          <div>
             <img src="/assets/login.jpg" alt="not found" class="image">
          </div>
       </div>
 
+
       <form #loginform="ngForm" (ngSubmit)="onSubmit(loginform)">
          <div class="form-group row">
             <label for="inputEmail3" class="col-sm-3 col-form-label">Email</label>
             <div class="col-sm-9">
-              <input type="email" [(ngModel)]="username" required name="username" 
-              class="form-control" id="inputEmail3" placeholder="Email">
+              <input 
+                type="email" 
+                [(ngModel)]="username" 
+                required 
+                name="username" 
+                class="form-control" 
+                id="inputEmail3" 
+                placeholder="Email">
             </div>
             
           </div>
           <div class="form-group row">
             <label for="inputPassword3" class="col-sm-3 col-form-label">Password</label>
             <div class="col-sm-9">
-              <input type="password" [(ngModel)]="password" name="password" class="form-control" id="inputPassword3" placeholder="Password">
+              <input 
+                type="password" 
+                [(ngModel)]="password" 
+                name="password" 
+                class="form-control" 
+                id="inputPassword3" 
+                required
+                placeholder="Password">
             </div>
           </div>
          
          <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-block create-account">Log-in</button>
+            <button 
+            type="submit" 
+            class="btn btn-primary btn-block create-account"
+            [disabled]=!loginform.valid>Log-in</button>
         </div>
         <div class="row">
          <div class="checkbox col-8 ">

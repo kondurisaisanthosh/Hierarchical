@@ -16,10 +16,12 @@
       </form>
     </div>
   </nav>
+  
+  <app-spinner *ngIf="isLoading"></app-spinner>
+
 <main [@routeAnimations]=prepareRoute(outlet) class="content">
   <router-outlet #outlet="outlet"></router-outlet>
 </main>
-
 <div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1"
      role="dialog" aria-labelledby="dialog-child-name">
   <div class="modal-dialog modal-md">

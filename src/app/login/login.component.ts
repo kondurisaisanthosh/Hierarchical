@@ -14,7 +14,6 @@ import { ErrorHandlerService } from '../service/error-handler.service';
 export class LoginComponent implements OnInit {
   currentUser: import("/Users/santoshkonduri/Downloads/Hierarchical/src/app/bean/userDetails").userDetails;
 
-  constructor(private _token:JwttokenService,private dataService:DataService,private router: Router,private errorHandler: ErrorHandlerService) { }
 
   username: String;
   password: String;
@@ -22,6 +21,21 @@ export class LoginComponent implements OnInit {
   userdata:any;
   auth:any;
   errorMessage:String=''
+  errorOccured:boolean=false;
+  loginForm:NgForm;
+
+  constructor(private _token:JwttokenService,private dataService:DataService,private router: Router,private errorHandler: ErrorHandlerService) { 
+    this._token.loginError.subscribe(errormessage=>{
+      this.errorMessage=errormessage;
+      this.errorOccured=true;
+      this.emptyForm(this.loginForm);
+      this.dataService.isLoading.next(false);
+    })
+  }
+
+  emptyForm(loginForm:NgForm){
+    loginForm.resetForm();
+  }
 
   
   ngOnInit() {
@@ -30,16 +44,21 @@ export class LoginComponent implements OnInit {
       this.dataService.setUserLoggedIn(true);
       if(this.currentUser['type']==1){
         this.router.navigate(["/user"]);
+        this.dataService.isLoading.next(false);
       }else{
         this.router.navigate(["/admin"]);
+        this.dataService.isLoading.next(false);
       }
     }else{
       this.router.navigate(["/login"]);
+      this.dataService.isLoading.next(false);
     }
   }
 
   onSubmit(loginform: NgForm) {
+    this.loginForm=loginform;
     console.log(loginform.value);
+    this.dataService.isLoading.next(true);
     let newuser={
       "username":this.username,
       "password":this.password
@@ -54,15 +73,14 @@ export class LoginComponent implements OnInit {
          if(this.userdata.type==1){
           this.dataService.setUserLoggedIn(true);
            this.router.navigate(["user"]);
+           this.dataService.isLoading.next(false);
          }else{
            this.dataService.setUserLoggedIn(true);
           this.router.navigate(["admin"]);
+          this.dataService.isLoading.next(false);
          }
-         loginform.resetForm();
+         
       })
-    },(error)=>{
-      console.log("error");
-      this.errorMessage=error;
     })
   }
 }

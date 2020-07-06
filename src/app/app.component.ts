@@ -11,6 +11,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { fader } from './route-animations';
 import { userDetails } from './bean/userDetails';
 import { DataService } from './service/data.service';
+import { JwttokenService } from './service/jwttoken.service';
 
 @Component({
   selector: 'app-root',
@@ -30,11 +31,12 @@ export class AppComponent {
   timedOut = false;
   lastPing?: Date = null;
   currentUser: userDetails;
+  isLoading:boolean=false;
 
   public modalRef: BsModalRef;
   @ViewChild('childModal', { static: false }) childModal: ModalDirective;
    
-  constructor(private idle: Idle, private keepalive: Keepalive, 
+  constructor(private idle: Idle, private keepalive: Keepalive, private jwtTokenService:JwttokenService,
     private router: Router, private modalService: BsModalService, private dataService: DataService) {
       this.dataService.currentUser.subscribe(x => this.currentUser = x);
     //sets an idle timeout of 5 seconds, for testing purposes.
@@ -83,7 +85,12 @@ export class AppComponent {
         idle.stop();
       }
     })
-    // this.reset();
+
+    this.dataService.isLoading.subscribe(load=>{
+      // console.log(load);
+      this.isLoading=load;
+      
+    })
   }
 
   reset() {

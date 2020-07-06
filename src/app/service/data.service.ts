@@ -14,6 +14,9 @@ export class DataService {
 
   private userLoggedIn = new Subject<boolean>();
 
+  public errorMessage=new Subject<string>();
+  public isLoading=new Subject<boolean>();
+
   currentUserSubject: any;
   public currentUser: Observable<userDetails>;
   userDetails: any;
@@ -55,13 +58,10 @@ export class DataService {
         this.currentUserSubject.next(user);
       }
       return user;
-   })).pipe(catchError(this.handleError));
+   }))
   }
 
-  handleError(error){
-    return throwError("santhosh");
-  }
-
+  
   setUserLoggedIn(userLoggedIn: boolean) {
     this.userLoggedIn.next(userLoggedIn);
   }
