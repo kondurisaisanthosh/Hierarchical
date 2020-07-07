@@ -28,46 +28,27 @@ export class LoginComponent implements OnInit {
     this._token.loginError.subscribe(errormessage=>{
       this.errorMessage=errormessage;
       this.errorOccured=true;
-      // this.emptyForm(this.loginForm);
       this.dataService.isLoading.next(false);
+      this.loginForm.resetForm();
     })
   }
 
-  emptyForm(loginForm:NgForm){
-    loginForm.resetForm();
-  }
-
-  
   ngOnInit() {
-    this.currentUser = this.dataService.currentUserValue;
-    if(this.currentUser){
-      this.dataService.setUserLoggedIn(true);
-      if(this.currentUser['type']==1){
-        this.router.navigate(["/user"]);
-        this.dataService.isLoading.next(false);
-      }else{
-        this.router.navigate(["/admin"]);
-        this.dataService.isLoading.next(false);
-      }
-    }else{
-      this.router.navigate(["/login"]);
-      this.dataService.isLoading.next(false);
-    }
   }
 
   onSubmit(loginform: NgForm) {
     this.loginForm=loginform;
     console.log(loginform);
-    this.dataService.isLoading.next(true);
     let newuser={
-      "username":this.username,
-      "password":this.password
+      "username":this.loginForm.value.username,
+      "password":this.loginForm.value.password
     }
     this._token.generateToken(newuser).subscribe(data=>{
+      this.dataService.isLoading.next(true);
       this.auth=data;
       console.log(this.auth);
       localStorage.setItem('authKey','Bearer '+this.auth);
-      this.dataService.getUser(data,this.username).subscribe(user=>{
+      this.dataService.getUser(data,newuser.username).subscribe(user=>{
          this.userdata=user;
          console.log(this.userdata.type)
          if(this.userdata.type==1){

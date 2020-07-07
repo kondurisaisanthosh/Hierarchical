@@ -18,6 +18,6 @@ form
 .form-group {
     margin-right: 15px;
 }
-input .ng-invalid .ng-touched{
+input.ng-invalid.ng-touched{
     border:1px solid red;
 }

@@ -5,60 +5,118 @@
          </div>
       </div>
 
-      <form #registerForm="ngForm" (ngSubmit)=onSubmit(registerForm)>
-         <div class="form-group row">
-            <label for="inputname" class="col-sm-3 col-form-label">Name</label>
-            <div class="col-sm-9">
-              <input type="text" class="form-control"  [(ngModel)]="username" name="username" id="inputname" placeholder="Enter Name">
-            </div>
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+        <div class="form-group row">
+          <label for="username" class="col-sm-3"><b>Username</b></label>
+          <div class="col-sm-9">
+            <input
+            type="text"
+            id="username"
+            placeholder="username"
+            formControlName="username"
+            class="form-control">
+            <small
+            *ngIf="!signupForm.get('username').valid && signupForm.get('username').touched"
+            class="help-block">Please enter a valid username</small>
           </div>
-          <div class="form-group row">
-            <label for="inputEmail3" class="col-sm-3 col-form-label">Email</label>
-            <div class="col-sm-9">
-              <input type="email"  [(ngModel)]="email" name="email" class="form-control" id="inputEmail3" placeholder="Enter Email">
-            </div>
-          </div>
-
-          <div class="form-group row">
-            <label for="inputPassword3" class="col-sm-3 col-form-label">Password</label>
-            <div class="col-sm-9">
-              <input type="password" [(ngModel)]="password" name="password" class="form-control" id="inputPassword3" placeholder="Enter Password">
-            </div>
-          </div>
-
-          <div class="form-group row">
-            <label for="confirmPassword3" class="col-sm-3 col-form-label">Password</label>
-            <div class="col-sm-9">
-              <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" class="form-control" id="confirmPassword3" placeholder="confirm Password">
-            </div>
-          </div>
-
-          
-           <div class="form-group row">
-            <label for="birthday" class="col-sm-3 col-form-label">D.O.B</label>
-
-            <div class="col-sm-9">
-                <input type="date" [(ngModel)]="dob" name="dob" name="birthday" max="3000-12-31" min="1000-01-01" class="form-control">  
-          </div>
-          </div>
-    
-
-          <div class="form-group row">
-            <label for="Phone" class="col-sm-3 col-form-label">Phone</label>
-            <div class="col-sm-9">
-              <input type="text" class="form-control" [(ngModel)]="phone" name="phone" id="Phone" placeholder="Enter Phone">
-            </div>
-          </div>
-
-         <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-block create-account" (click)="registerUser()" >Register</button>
         </div>
-       
+
+        <div class="form-group row">
+          <label for="email" class="col-sm-3"><b>Email</b></label>
+          <div class="col-sm-9">
+            <input
+              type="email"
+              id="email"
+              placeholder="email"
+              formControlName="email"
+              class="form-control">
+              <small
+                *ngIf="!signupForm.get('email').valid && signupForm.get('email').touched"
+                class="help-block">Please enter a valid email</small>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="password" class="col-sm-3"><b>Password</b></label>
+          <div class="col-sm-9">
+            <input
+              type="password"
+              id="password"
+              placeholder="password"
+              formControlName="password"
+              class="form-control">
+              <small
+                *ngIf="!signupForm.get('confirmPassword').valid && signupForm.get('confirmPassword').touched"
+                class="help-block">Please enter password</small>
+              </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="confirmPassword" class="col-sm-3"><b>Password</b></label>
+          <div class="col-sm-9">
+            <input
+              type="password"
+              id="confirmPassword"
+              placeholder="confirm password"
+              formControlName="confirmPassword"
+              class="form-control">
+              <small
+                *ngIf="!signupForm.get('confirmPassword').valid && signupForm.get('confirmPassword').touched"
+                class="help-block">Please confirm password</small>
+              </div>
+        </div>
+        
+        <div class="form-group row">
+          <label for="phone" class="col-sm-3"><b>Phone</b></label>
+          <div class="col-sm-9">
+            <input
+              type="text"
+              (keypress)="numberOnly($event)"
+              id="phone"
+              formControlName="phone"
+              placeholder="phone"
+              class="form-control">
+              <small
+                *ngIf="!signupForm.get('phone').valid && signupForm.get('phone').touched"
+                class="help-block">Please enter a valid phone number</small>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="dob" class="col-sm-3"><b>DOB</b></label>
+          <div class="col-sm-9">
+            <input 
+            type="date"  
+            id="dob" 
+            formControlName="dob" 
+            max="3000-12-31" 
+            min="1000-01-01" 
+            class="form-control">  
+          </div>
+        </div>
+
+
+        <div *ngIf="errorOccured">
+          <hr>
+          <div class="alert alert-danger" style="text-align: center;">
+            <strong style="text-align: center;"> {{errorMessage}}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <hr>
+        </div>
+
+        <div class="form-group">
+          <button type="submit" class="btn-primary btn btn-block" (click)="registerUser()"
+          [disabled]="!signupForm.valid">Register</button>
+        </div>
+
         <div class="row">
-         <div class="col text-center">
-           <a [routerLink]="['/login']" routerLinkActive="router-link-active">Login</a>
-         </div>
-       </div>
-       </form>
-       
+          <div class="col text-center">
+            <a [routerLink]="['/login']" routerLinkActive="router-link-active">Login</a>
+          </div>
+        </div>
+
+      </form>
    </div>

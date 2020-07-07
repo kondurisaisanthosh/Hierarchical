@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { DataService } from '../service/data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -10,7 +11,7 @@ import { DataService } from '../service/data.service';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor(private dataservice:DataService) { }
+  constructor(private dataservice:DataService,private router: Router) { }
   username:any;
   password:any;
   email:any;
@@ -19,34 +20,60 @@ export class RegisterComponent implements OnInit {
   phone:any;
   response:string;
 
+  errorOccured:boolean=false;
+  errorMessage:string;
+
+  signupForm:FormGroup;
+
+
   ngOnInit() {
-    
+    this.signupForm=new FormGroup({
+      'username':new FormControl(null,Validators.required),
+      'password':new FormControl(null,Validators.required),
+      'confirmPassword':new FormControl(null,Validators.required),
+      'email':new FormControl(null,[Validators.required,Validators.email]),
+      'phone':new FormControl(null,Validators.required),
+      'dob':new FormControl(null),
+    })
   }
 
   registerUser(){
-    if(this.confirmPassword===this.password){
+    if(this.signupForm.value.confirmPassword===this.signupForm.value.password){
       let newuser={
-        "username":this.username,
-        "password":this.password,
-        "email":this.email,
-        "phone":this.phone,
-        "dob":this.dob
+        "username":this.signupForm.value.username,
+        "password":this.signupForm.value.password,
+        "email":this.signupForm.value.email,
+        "phone":this.signupForm.value.phone,
+        "dob":this.signupForm.value.dob
         };
 
         this.dataservice.registerNewUser(newuser).subscribe(data=>{
           this.response=data;
-          alert(this.response);
+          this.signupForm.reset();
+          this.errorOccured=true;
+          this.errorMessage="Registered!"
+          this.router.navigate(["/login"]);
         }),(error)=>{
           console.log(error);
         };
 
     }else{
-      alert("passwords mismatch");
+      this.errorOccured=true;
+      this.errorMessage="Passwords Mismatch"
     }
   }
-  onSubmit(registerForm: NgForm) {
-    console.log(registerForm.value);
-    registerForm.resetForm();
+
+  numberOnly(event): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+
+  }
+
+  onSubmit() {
+    console.log(this.signupForm.value);
   }
 
 }

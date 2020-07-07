@@ -34,13 +34,15 @@
       </div>
       <div class="modal-body">
          {{idleState}}
+         <hr>
         <div class="row ">
-          <div class="col-md-6">
-              <button type="button" (click)="logout()" class="btn btn-danger">Logout</button>
-          </div>
-          <div class="col-md-6">
-              <button type="button" (click)="stay()" class="btn btn-success">Stay</button>
-          </div>
+          
+          <div class="col-md-9">
+            <button type="button" (click)="logout()" class="btn btn-danger">Logout</button>
+        </div>
+        <div class="col-md-3">
+            <button type="button" (click)="stay()" class="btn btn-success">Stay</button>
+        </div>
         </div>
       </div>
     </div>
