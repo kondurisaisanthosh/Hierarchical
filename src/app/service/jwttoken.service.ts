@@ -20,6 +20,10 @@ export class JwttokenService {
 
   generateToken(user:any) {
     this.authUrl="authenticate";
-    return this._http.post<string>(`${environment.apiUrl}/${this.authUrl}`,user,{responseType: 'text' as 'json'});
+    return this._http.post<string>(`${environment.apiUrl}/${this.authUrl}`,user,{responseType: 'text' as 'json'})
+    .pipe(catchError(error=>{
+      this.loginError.next("Invalid username/Password");
+      return throwError(error);
+    }));
   }
 }

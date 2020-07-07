@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
     this._token.loginError.subscribe(errormessage=>{
       this.errorMessage=errormessage;
       this.errorOccured=true;
-      this.emptyForm(this.loginForm);
+      // this.emptyForm(this.loginForm);
       this.dataService.isLoading.next(false);
     })
   }
@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit(loginform: NgForm) {
     this.loginForm=loginform;
-    console.log(loginform.value);
+    console.log(loginform);
     this.dataService.isLoading.next(true);
     let newuser={
       "username":this.username,

@@ -1,5 +1,5 @@
 .login{
-    margin: 10% 30% 0% 30%;
+    margin: 5% 30% 0% 30%;
     width: 40%;
     border: 1px solid #808080;
     border-radius: 8px;  
@@ -17,4 +17,7 @@ form
 }
 .form-group {
     margin-right: 15px;
+}
+input .ng-invalid .ng-touched{
+    border:1px solid red;
 }
