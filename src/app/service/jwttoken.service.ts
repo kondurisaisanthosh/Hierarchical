@@ -11,6 +11,7 @@ export class JwttokenService {
 
   token:any;
   authUrl:any;
+  errorMessage:any;
 
   public loginError=new Subject<string>();
 
@@ -22,7 +23,10 @@ export class JwttokenService {
     this.authUrl="authenticate";
     return this._http.post<string>(`${environment.apiUrl}/${this.authUrl}`,user,{responseType: 'text' as 'json'})
     .pipe(catchError(error=>{
-      this.loginError.next("Invalid username/Password");
+      
+      this.errorMessage=JSON.parse(error.error)
+      // console.log(this.errorMessage.message)
+      this.loginError.next(this.errorMessage.message);
       return throwError(error);
     }));
   }

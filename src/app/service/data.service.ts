@@ -14,8 +14,11 @@ export class DataService {
 
   private userLoggedIn = new Subject<boolean>();
 
+  private regError:any;
   public errorMessage=new Subject<string>();
   public isLoading=new Subject<boolean>();
+
+  public registerError=new Subject<string>();
 
   currentUserSubject: any;
   public currentUser: Observable<userDetails>;
@@ -32,11 +35,19 @@ export class DataService {
   registerNewUser(userObj:any){
     let regurl = `${environment.apiUrl}/register`;
     console.log("user "+JSON.stringify(userObj));
-    return this._http.post<string>(regurl,userObj,{responseType: 'text' as 'json'});
+    return this._http.post<string>(regurl,userObj,{responseType: 'text' as 'json'})
+    .pipe(catchError(error=>{
+      this.regError=JSON.parse(error.error)
+      // console.log(this.regError.message)
+      this.registerError.next(this.regError.message);
+      return throwError(error);
+    }));
   }
+  
+  
   public get currentUserValue(): userDetails {
     return this.currentUserSubject.value;
-}
+  }
 
   getOrganization(auth:any){
     console.log("test" + auth);

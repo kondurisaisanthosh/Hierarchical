@@ -11,7 +11,28 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor(private dataservice:DataService,private router: Router) { }
+  constructor(private dataservice:DataService,private router: Router) { 
+
+    this.dataservice.registerError.subscribe(error=>{
+      // console.log(error)
+      if(error==='username'){
+        this.nonExistentUsername=true;
+      }else if(error==='email'){
+        this.nonExistentUsername=false;
+        this.nonExistentEmail=true;
+      }else if(error==='phone'){
+        this.nonExistentUsername=false;
+        this.nonExistentEmail=false;
+        this.nonExistentPhone=true;
+      }else{
+        this.nonExistentUsername=false;
+        this.nonExistentEmail=false;
+        this.nonExistentPhone=false;
+      }
+    })
+
+
+  }
   username:any;
   password:any;
   email:any;
@@ -19,6 +40,9 @@ export class RegisterComponent implements OnInit {
   dob:any;
   phone:any;
   response:string;
+  nonExistentUsername:boolean=false;
+  nonExistentEmail:boolean=false;
+  nonExistentPhone:boolean=false;
 
   errorOccured:boolean=false;
   errorMessage:string;
@@ -52,7 +76,7 @@ export class RegisterComponent implements OnInit {
           this.signupForm.reset();
           this.errorOccured=true;
           this.errorMessage="Registered!"
-          this.router.navigate(["/login"]);
+          // this.router.navigate(["/login"]);
         }),(error)=>{
           console.log(error);
         };
