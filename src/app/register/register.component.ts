@@ -30,8 +30,6 @@ export class RegisterComponent implements OnInit {
         this.nonExistentPhone=false;
       }
     })
-
-
   }
   username:any;
   password:any;
