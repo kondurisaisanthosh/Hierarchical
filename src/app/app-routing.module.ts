@@ -25,7 +25,6 @@ const routes: Routes = [
     path:'admin',
     component : AdminDashboardComponent,
     canActivate: [AuthGuard],     
-    // data: { type: 0,animation:'home'}
     data: { type: 0}
   },
   {

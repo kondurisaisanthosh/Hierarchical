@@ -33,7 +33,26 @@ export class LoginComponent implements OnInit {
     })
   }
 
+
   ngOnInit() {
+    this.currentUser = this.dataService.currentUserValue;
+    this.dataService.setUserLoggedIn(true);
+    // console.log(this.currentUser)
+    if(this.currentUser){
+      if(this.currentUser['type']==1){
+        this.dataService.setUserLoggedIn(true);
+        this.router.navigate(["/user"]);
+        this.dataService.isLoading.next(false);
+      }else{
+        this.router.navigate(["/admin"]);
+        this.dataService.setUserLoggedIn(true);
+        this.dataService.isLoading.next(false);
+      }
+    }else{
+      this.dataService.setUserLoggedIn(false);
+      this.router.navigate(["/login"]);
+      this.dataService.isLoading.next(false);
+    }
   }
 
   onSubmit(loginform: NgForm) {

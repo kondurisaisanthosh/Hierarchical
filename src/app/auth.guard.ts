@@ -18,10 +18,12 @@ export class AuthGuard implements CanActivate {
             // check if route is restricted by role
             if (route.data.type===0 && this.currentUser['type']  === 1) {
                 // role not authorised so redirect to home page
+                // this.dataService.setUserLoggedIn(true);
                 this.router.navigate(['/user']);
                 return false;
             }else if (route.data.type===1 && this.currentUser['type']  === 0) {
                 // role not authorised so redirect to home page
+                // this.dataService.setUserLoggedIn(true);
                 this.router.navigate(['/admin']);
                 return false;
             }
@@ -32,4 +34,6 @@ export class AuthGuard implements CanActivate {
         this.router.navigate(['/login']);
         return false;;
     }
+
+  
 }

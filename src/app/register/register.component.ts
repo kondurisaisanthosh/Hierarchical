@@ -14,23 +14,26 @@ export class RegisterComponent implements OnInit {
   constructor(private dataservice:DataService,private router: Router) { 
 
     this.dataservice.registerError.subscribe(error=>{
-      // console.log(error)
-      if(error==='username'){
-        this.nonExistentUsername=true;
-      }else if(error==='email'){
-        this.nonExistentUsername=false;
-        this.nonExistentEmail=true;
-      }else if(error==='phone'){
-        this.nonExistentUsername=false;
-        this.nonExistentEmail=false;
-        this.nonExistentPhone=true;
-      }else{
-        this.nonExistentUsername=false;
-        this.nonExistentEmail=false;
-        this.nonExistentPhone=false;
-      }
+      this.exceptionOccured=error.split(' ');
+      
+      this.exceptionOccured.forEach(element => {
+        console.log(element);
+        if(element==='username'){
+          this.nonExistentUsername=true;
+        }else if(element==='email'){
+          this.nonExistentEmail=true;
+        }else if(element==='phone'){
+          this.nonExistentPhone=true;
+        }else{
+          this.nonExistentUsername=false;
+          this.nonExistentEmail=false;
+          this.nonExistentPhone=false
+        }
+        
+      });
     })
   }
+  exceptionOccured:any;
   username:any;
   password:any;
   email:any;
@@ -72,6 +75,11 @@ export class RegisterComponent implements OnInit {
         this.dataservice.registerNewUser(newuser).subscribe(data=>{
           this.response=data;
           this.signupForm.reset();
+          
+          this.nonExistentUsername=false;
+          this.nonExistentEmail=false;
+          this.nonExistentPhone=false;
+          
           this.errorOccured=true;
           this.errorMessage="Registered!"
           // this.router.navigate(["/login"]);

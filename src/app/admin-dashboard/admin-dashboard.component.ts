@@ -16,6 +16,8 @@ export class AdminDashboardComponent implements OnInit {
 
   ngOnInit() {
     // this.getAllOrgs();
+    this.dataService.setUserLoggedIn(true);
+
   }
 
   getAllOrgs(){

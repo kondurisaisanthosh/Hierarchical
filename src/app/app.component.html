@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-primary" *ngIf="currentUser">
+<nav class="navbar navbar-expand-lg navbar-light " style="background-color: #808080	;" *ngIf="currentUser">
     <a class="navbar-brand" [routerLink]="['/admin']" routerLinkActive="router router-link-active" *ngIf="isAdmin()">Home</a>
     <a class="navbar-brand" [routerLink]="['/admin']" routerLinkActive="router router-link-active" *ngIf="!isAdmin()">Home</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -8,12 +8,29 @@
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
           <a  class="nav-link" [routerLink]="['/admin-users']" routerLinkActive="router-link-active" *ngIf="isAdmin()">Users </a>
-
         </li>
       </ul>
-      <form class="form-inline my-2 my-lg-0">
-        <button class="btn btn-danger my-2 my-sm-0" type="button" (click)="logout()">Logout</button>
+
+      <form class="form-inline my-2 my-lg-0" >
+        <!-- <button class="btn btn-danger my-2 my-sm-0" type="button" (click)="logout()">Logout</button> -->
+        <ul class="navbar-nav mr-auto " > 
+          <li class="nav-item dropdown  mr-sm-5">
+            <a class="nav-link dropdown-toggle"  id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              My Account
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" >My Profile</a>
+              <a class="dropdown-item" >Another action</a>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item" type="button" (click)="logout()">Logout</button>
+            </div>
+          </li>
+
+        </ul>
       </form>
+
+   
+
     </div>
   </nav>
   
