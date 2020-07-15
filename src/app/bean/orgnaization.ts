@@ -1,4 +1,5 @@
 export class organization{
+    
     constructor(
         organization_UUID: String,
         organization_Id: number,

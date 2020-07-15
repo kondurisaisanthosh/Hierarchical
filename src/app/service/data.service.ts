@@ -72,6 +72,15 @@ export class DataService {
    }))
   }
 
+
+  getModules(organizationUUID:string){
+    let getModuleUrl=`${environment.apiUrl}/module/getModules`;
+    return this._http.get(getModuleUrl,{params:{
+      orgUUID:organizationUUID
+    }
+    })
+  }
+
   
   setUserLoggedIn(userLoggedIn: boolean) {
     this.userLoggedIn.next(userLoggedIn);

@@ -1,9 +1,31 @@
-<button (click) = "getAllOrgs()">generate orgs</button>
+<div class="wrapper" >
+  <nav id="sidebar">
+    <button type="btn " class="sidebar-header-button btn-secondary">Add</button>
+    <div *ngIf="organizations">
+      <ul class="list-unstyled components">
+        <div>
+          <li class="dropright" *ngFor="let organization of organizations" (mouseenter)="getModules(organization)" [ngClass]="{'active':selectedOrganization===organization}" >
+            <a type="button"  data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" >{{organization.organization_name}} </a>
+          </li>
+        </div>
+      </ul>
+    </div> 
+  </nav>
 
-<div *ngIf="organizations">
-<div class="list-group col-md-2" *ngFor="let eachorg of organizations">
-  <a href="#" class="list-group-item list-group-item-action">
-    {{eachorg.organization_name}}
-  </a>
+  <div id="content" >
+    <nav id="sidebar">
+      <div *ngIf="modulesPresent">
+        <ul class="list-unstyled components">
+          <div *ngFor="let module of modules">
+            <li class="dropright">
+          
+             <a type="button"  data-toggle="collapse"  aria-expanded="false" class="dropdown-toggle onModActive">{{module.module_name}}</a>
+            </li>
+          </div>
+        </ul>
+      </div>
+    </nav>
+  </div>
 </div>
-</div>
+
+
