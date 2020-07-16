@@ -18,6 +18,7 @@ export class AdminDashboardComponent implements OnInit {
   modules:modules;
   modulesPresent:boolean=false;
   selectedOrganization:any;
+  cachedData: string;
   constructor(private dataService :DataService,private jwtService :JwttokenService) { }
 
   ngOnInit() {
@@ -38,21 +39,29 @@ export class AdminDashboardComponent implements OnInit {
     this.currentOrgs = orgs;
   }
 
- 
 
   getModules(organization){
-
     this.selectedOrganization=organization;
-    
-    this.dataService.getModules(organization['organization_UUID']).subscribe(data=>{
-      this.modules=data;
-      console.log(this.modules)
-      if(Object.keys(this.modules).length>0){
-        this.modulesPresent=true;
-      }else{
-        this.modulesPresent=false;
-      }
-    })
+    let cacheData=localStorage.getItem(organization['organization_UUID']);
+    if(cacheData){
+      this.modules=JSON.parse(cacheData);
+        console.log(this.modules)
+        if(Object.keys(this.modules).length>0){
+          this.modulesPresent=true;
+        }else{
+          this.modulesPresent=false;
+        }
+    }else{
+      this.dataService.getModules(organization['organization_UUID']).subscribe(data=>{
+        this.modules=data;
+        console.log(this.modules)
+        if(Object.keys(this.modules).length>0){
+          this.modulesPresent=true;
+        }else{
+          this.modulesPresent=false;
+        }
+      })
+    }
   }
 
 }

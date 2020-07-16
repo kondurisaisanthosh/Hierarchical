@@ -6,6 +6,7 @@ import { userDetails } from '../bean/userDetails';
 import { Observable, BehaviorSubject, Subject, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { BnNgIdleService } from 'bn-ng-idle';
+import { modules } from '../bean/modules';
 
 @Injectable({
   providedIn: 'root'
@@ -17,12 +18,14 @@ export class DataService {
   private regError:any;
   public errorMessage=new Subject<string>();
   public isLoading=new Subject<boolean>();
+  public cacheData=new Subject<modules[]>();
 
   public registerError=new Subject<string>();
 
   currentUserSubject: any;
   public currentUser: Observable<userDetails>;
   userDetails: any;
+  cachedData: any;
   
   constructor(private _http:HttpClient) { 
     this.userLoggedIn.next(false);
@@ -78,7 +81,10 @@ export class DataService {
     return this._http.get(getModuleUrl,{params:{
       orgUUID:organizationUUID
     }
-    })
+    }).pipe(map(moduleData=>{
+      localStorage.setItem(organizationUUID,JSON.stringify(moduleData));
+      return moduleData;
+    }))
   }
 
   
