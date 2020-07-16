@@ -29,10 +29,14 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   getAllOrgs(){
-    this.dataService.getOrganization(<any>localStorage.getItem('authKey')).subscribe(org=>{
+    this.dataService.getOrganization().subscribe(org=>{
       this.organizations=org;
       // console.log(JSON.stringify(this.organizations));
     })
+  }
+
+  clearCache(){
+    this.dataService.clearOrganizationCache();
   }
 
   currentOrg(orgs:organization){
@@ -43,25 +47,35 @@ export class AdminDashboardComponent implements OnInit {
   getModules(organization){
     this.selectedOrganization=organization;
     let cacheData=localStorage.getItem(organization['organization_UUID']);
+    let now=new Date().getTime();
     if(cacheData){
-      this.modules=JSON.parse(cacheData);
+      this.modules=JSON.parse(cacheData)['modules'];
+      let expiry=JSON.parse(cacheData)['expiration']
+      if(expiry<=now){
+        this.getModuleApi(organization)
+      }else{
         console.log(this.modules)
         if(Object.keys(this.modules).length>0){
           this.modulesPresent=true;
         }else{
           this.modulesPresent=false;
         }
+      }
     }else{
-      this.dataService.getModules(organization['organization_UUID']).subscribe(data=>{
-        this.modules=data;
-        console.log(this.modules)
-        if(Object.keys(this.modules).length>0){
-          this.modulesPresent=true;
-        }else{
-          this.modulesPresent=false;
-        }
-      })
+      this.getModuleApi(organization);
     }
+  }
+
+  getModuleApi(organization){
+    this.dataService.getModules(organization['organization_UUID']).subscribe(data=>{
+      this.modules=data;
+      console.log(this.modules)
+      if(Object.keys(this.modules).length>0){
+        this.modulesPresent=true;
+      }else{
+        this.modulesPresent=false;
+      }
+    })
   }
 
 }

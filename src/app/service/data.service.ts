@@ -26,6 +26,9 @@ export class DataService {
   public currentUser: Observable<userDetails>;
   userDetails: any;
   cachedData: any;
+
+  expirationMS=5*60*1000;
+  allOrganizations: any;
   
   constructor(private _http:HttpClient) { 
     this.userLoggedIn.next(false);
@@ -52,10 +55,13 @@ export class DataService {
     return this.currentUserSubject.value;
   }
 
-  getOrganization(auth:any){
-    console.log("test" + auth);
+  getOrganization(){
     let orgUrl=`${environment.apiUrl}/organization/allOrganizations`;
     return this._http.get<any>(orgUrl)
+    .pipe(map(organizations=>{
+      this.allOrganizations=organizations;
+      return organizations;
+    }))
   }
 
   getUser(auth:any,name:any){
@@ -75,6 +81,14 @@ export class DataService {
    }))
   }
 
+  clearOrganizationCache(){
+   if(this.allOrganizations){
+    this.allOrganizations.forEach(organization => {
+      localStorage.removeItem(organization.organization_UUID);
+    });
+    console.log('cache cleared')
+   }
+  }
 
   getModules(organizationUUID:string){
     let getModuleUrl=`${environment.apiUrl}/module/getModules`;
@@ -82,7 +96,14 @@ export class DataService {
       orgUUID:organizationUUID
     }
     }).pipe(map(moduleData=>{
-      localStorage.setItem(organizationUUID,JSON.stringify(moduleData));
+
+      let cacheData={
+        modules:moduleData,
+        expiration: this.expirationMS !== 0 ? new Date().getTime() + this.expirationMS : null,
+      }
+
+
+      localStorage.setItem(organizationUUID,JSON.stringify(cacheData));
       return moduleData;
     }))
   }

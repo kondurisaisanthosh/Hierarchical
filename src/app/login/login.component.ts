@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit(loginform: NgForm) {
     this.loginForm=loginform;
-    console.log(loginform);
+    // console.log(loginform);
     let newuser={
       "username":this.loginForm.value.username,
       "password":this.loginForm.value.password
@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
     this._token.generateToken(newuser).subscribe(data=>{
       this.dataService.isLoading.next(true);
       this.auth=data;
-      console.log(this.auth);
+      // console.log(this.auth);
       localStorage.setItem('authKey','Bearer '+this.auth);
       this.dataService.getUser(data,newuser.username).subscribe(user=>{
          this.userdata=user;

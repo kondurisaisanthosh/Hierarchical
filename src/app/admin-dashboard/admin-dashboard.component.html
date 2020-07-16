@@ -1,6 +1,6 @@
 <div class="wrapper" >
   <nav id="sidebar">
-    <button type="btn " class="sidebar-header-button btn-secondary">Add</button>
+    <button type="btn " class="sidebar-header-button btn-secondary" (click)="clearCache()">clear cache</button>
     <div *ngIf="organizations">
       <ul class="list-unstyled components">
         <div>
@@ -12,13 +12,13 @@
     </div> 
   </nav>
 
+
   <div id="content" >
     <nav id="sidebar">
       <div *ngIf="modulesPresent">
         <ul class="list-unstyled components">
-          <div *ngFor="let module of modules">
-            <li class="dropright">
-          
+          <div >
+            <li class="dropright" *ngFor="let module of modules">
              <a type="button"  data-toggle="collapse"  aria-expanded="false" class="dropdown-toggle onModActive">{{module.module_name}}</a>
             </li>
           </div>
