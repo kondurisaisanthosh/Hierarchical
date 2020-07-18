@@ -108,6 +108,16 @@ export class DataService {
     }))
   }
 
+
+
+  addOrganization(org:string){
+    let addOrgUrl=`${environment.apiUrl}/organization/storeOrganization?`;
+    let body=`orgName=${org}`
+    return this._http.post(`${addOrgUrl}${body}`,{},{responseType: 'text'} )
+  }
+
+
+
   
   setUserLoggedIn(userLoggedIn: boolean) {
     this.userLoggedIn.next(userLoggedIn);

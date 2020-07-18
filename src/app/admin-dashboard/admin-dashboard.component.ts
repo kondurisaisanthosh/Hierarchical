@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataService } from '../service/data.service';
 import { JwttokenService } from '../service/jwttoken.service';
 import { organization } from '../bean/orgnaization';
 
 import {modules} from '../bean/modules'
+import { BsModalRef, ModalDirective } from 'ngx-bootstrap/modal';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -19,6 +21,10 @@ export class AdminDashboardComponent implements OnInit {
   modulesPresent:boolean=false;
   selectedOrganization:any;
   cachedData: string;
+
+  public modalRef: BsModalRef;
+  @ViewChild('addOrgChildModal', { static: false }) addOrgChildModal: ModalDirective;
+
   constructor(private dataService :DataService,private jwtService :JwttokenService) { }
 
   ngOnInit() {
@@ -43,6 +49,15 @@ export class AdminDashboardComponent implements OnInit {
     this.currentOrgs = orgs;
   }
 
+  addOrganization(){
+    this.addOrgChildModal.show();
+  }
+  addOrg(orgForm:NgForm){
+    // console.log(orgForm.value.organization_name);
+    this.dataService.addOrganization(orgForm.value.organization_name).subscribe(res=>{
+      console.log(JSON.stringify(res))
+    });
+  }
 
   getModules(organization){
     this.selectedOrganization=organization;
@@ -69,7 +84,7 @@ export class AdminDashboardComponent implements OnInit {
   getModuleApi(organization){
     this.dataService.getModules(organization['organization_UUID']).subscribe(data=>{
       this.modules=data;
-      console.log(this.modules)
+      // console.log(this.modules)
       if(Object.keys(this.modules).length>0){
         this.modulesPresent=true;
       }else{
