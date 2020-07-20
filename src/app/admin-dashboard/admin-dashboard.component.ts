@@ -21,11 +21,20 @@ export class AdminDashboardComponent implements OnInit {
   modulesPresent:boolean=false;
   selectedOrganization:any;
   cachedData: string;
+  errorOccured:boolean=false;
+  errorMessage:any;
 
   public modalRef: BsModalRef;
   @ViewChild('addOrgChildModal', { static: false }) addOrgChildModal: ModalDirective;
 
-  constructor(private dataService :DataService,private jwtService :JwttokenService) { }
+  constructor(private dataService :DataService,private jwtService :JwttokenService) {
+
+    this.dataService.addOrganizationError.subscribe(error=>{
+      this.errorOccured=true;
+      this.errorMessage=error;
+    })
+
+   }
 
   ngOnInit() {
     // this.getAllOrgs();
@@ -55,9 +64,18 @@ export class AdminDashboardComponent implements OnInit {
   addOrg(orgForm:NgForm){
     // console.log(orgForm.value.organization_name);
     this.dataService.addOrganization(orgForm.value.organization_name).subscribe(res=>{
+      this.errorOccured=true;
+      this.errorMessage=res;
+      orgForm.resetForm();
       console.log(JSON.stringify(res))
     });
   }
+
+
+  hideChildModal(){
+    this.addOrgChildModal.hide();
+  }
+
 
   getModules(organization){
     this.selectedOrganization=organization;
@@ -79,6 +97,14 @@ export class AdminDashboardComponent implements OnInit {
     }else{
       this.getModuleApi(organization);
     }
+  }
+
+  removeOrganization(organization){
+    this.dataService.removeOrganization(organization).subscribe(response=>{
+      console.log(response);
+      this.dataService.clearOrganizationCache();
+      this.dataService.getOrganization();
+    });
   }
 
   getModuleApi(organization){
