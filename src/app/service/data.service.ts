@@ -7,6 +7,7 @@ import { Observable, BehaviorSubject, Subject, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { BnNgIdleService } from 'bn-ng-idle';
 import { modules } from '../bean/modules';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,8 @@ export class DataService {
   public currentUser: Observable<userDetails>;
   userDetails: any;
   cachedData: any;
+
+  organizations=new Subject();
 
   expirationMS=5*60*1000;
   allOrganizations: any;
@@ -62,6 +65,7 @@ export class DataService {
     return this._http.get<any>(orgUrl)
     .pipe(map(organizations=>{
       this.allOrganizations=organizations;
+      this.organizations.next(organizations);
       return organizations;
     }))
   }

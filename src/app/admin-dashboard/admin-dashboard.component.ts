@@ -6,6 +6,7 @@ import { organization } from '../bean/orgnaization';
 import {modules} from '../bean/modules'
 import { BsModalRef, ModalDirective } from 'ngx-bootstrap/modal';
 import { NgForm } from '@angular/forms';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -23,11 +24,17 @@ export class AdminDashboardComponent implements OnInit {
   cachedData: string;
   errorOccured:boolean=false;
   errorMessage:any;
+  addOneOrganization:boolean=false;
+  addOneModule:boolean=false;
 
   public modalRef: BsModalRef;
   @ViewChild('addOrgChildModal', { static: false }) addOrgChildModal: ModalDirective;
 
   constructor(private dataService :DataService,private jwtService :JwttokenService) {
+
+    this.dataService.organizations.subscribe(org=>{
+      this.organizations=org;
+    })
 
     this.dataService.addOrganizationError.subscribe(error=>{
       this.errorOccured=true;
@@ -46,8 +53,9 @@ export class AdminDashboardComponent implements OnInit {
   getAllOrgs(){
     this.dataService.getOrganization().subscribe(org=>{
       this.organizations=org;
-      // console.log(JSON.stringify(this.organizations));
     })
+
+    
   }
 
   clearCache(){
@@ -59,8 +67,15 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   addOrganization(){
+    this.addOneOrganization=true;
     this.addOrgChildModal.show();
   }
+
+  addModuleToOrganization(){
+    this.addOneModule=true;
+    this.addOrgChildModal.show();
+  }
+
   addOrg(orgForm:NgForm){
     // console.log(orgForm.value.organization_name);
     this.dataService.addOrganization(orgForm.value.organization_name).subscribe(res=>{
@@ -69,15 +84,23 @@ export class AdminDashboardComponent implements OnInit {
       orgForm.resetForm();
       console.log(JSON.stringify(res))
     });
+
   }
 
 
   hideChildModal(){
     this.addOrgChildModal.hide();
+    this.addOneOrganization=false;
+
   }
 
+  addModule(){
+    console.log(this.selectedOrganization.organization_name)
+
+  }
 
   getModules(organization){
+    this.modulesPresent=true;
     this.selectedOrganization=organization;
     let cacheData=localStorage.getItem(organization['organization_UUID']);
     let now=new Date().getTime();
@@ -90,8 +113,6 @@ export class AdminDashboardComponent implements OnInit {
         console.log(this.modules)
         if(Object.keys(this.modules).length>0){
           this.modulesPresent=true;
-        }else{
-          this.modulesPresent=false;
         }
       }
     }else{
@@ -113,8 +134,6 @@ export class AdminDashboardComponent implements OnInit {
       // console.log(this.modules)
       if(Object.keys(this.modules).length>0){
         this.modulesPresent=true;
-      }else{
-        this.modulesPresent=false;
       }
     })
   }

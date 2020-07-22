@@ -8,8 +8,8 @@
         <div>
           <hr>
           <li *ngFor="let organization of organizations" (mouseenter)="getModules(organization)" [ngClass]="{'active dropright':selectedOrganization===organization}" >
-            <div class="row" type="button">
-              <a type="button" class="col-md-3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" >{{organization.organization_name}} </a>
+            <div class="row">
+              <a class="col-md-3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" >{{organization.organization_name}} </a>
               <div class="col-md-3">
                 <button type="button" class="row btn-secondary">Update</button>
                 <button type="button" class="row btn-primary" (click)=removeOrganization(organization)> Remove</button>
@@ -26,7 +26,7 @@
   <div id="content" >
     <nav id="sidebar">
       <div *ngIf="modulesPresent">
-        <button class="btn btn-secondary" type="button">Add</button>
+        <button class="btn btn-secondary" type="button" (click)=addModuleToOrganization()>Add</button>
         <ul class="list-unstyled components">
           <div >
             <li  *ngFor="let module of modules">
@@ -48,7 +48,7 @@
         </button>
       </div>
       <br>
-      <form #addOrgForm="ngForm" (ngSubmit)=addOrg(addOrgForm)>
+      <form #addOrgForm="ngForm" (ngSubmit)=addOrg(addOrgForm) *ngIf="addOneOrganization">
         <div class="form-group row" style="text-align: center;">
           <label for="organization_name" class="col-sm-4 col-form-label">Organization </label>
           <div class="col-sm-6">
