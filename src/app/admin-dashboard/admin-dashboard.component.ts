@@ -26,9 +26,11 @@ export class AdminDashboardComponent implements OnInit {
   errorMessage:any;
   addOneOrganization:boolean=false;
   addOneModule:boolean=false;
+  orgTobeDeleted:organization;
 
   public modalRef: BsModalRef;
   @ViewChild('addOrgChildModal', { static: false }) addOrgChildModal: ModalDirective;
+  removeOrg: boolean;
 
   constructor(private dataService :DataService,private jwtService :JwttokenService) {
 
@@ -37,6 +39,11 @@ export class AdminDashboardComponent implements OnInit {
     })
 
     this.dataService.addOrganizationError.subscribe(error=>{
+      this.errorOccured=true;
+      this.errorMessage=error;
+    })
+
+    this.dataService.addModuleError.subscribe(error=>{
       this.errorOccured=true;
       this.errorMessage=error;
     })
@@ -67,6 +74,7 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   addOrganization(){
+    this.addOneModule=false;
     this.addOneOrganization=true;
     this.addOrgChildModal.show();
   }
@@ -77,12 +85,11 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   addOrg(orgForm:NgForm){
-    // console.log(orgForm.value.organization_name);
+    
     this.dataService.addOrganization(orgForm.value.organization_name).subscribe(res=>{
-      this.errorOccured=true;
-      this.errorMessage=res;
-      orgForm.resetForm();
-      console.log(JSON.stringify(res))
+      this.organizations=res;
+      this.hideChildModal();
+      window.location.reload();
     });
 
   }
@@ -90,12 +97,21 @@ export class AdminDashboardComponent implements OnInit {
 
   hideChildModal(){
     this.addOrgChildModal.hide();
-    this.addOneOrganization=false;
-
+    this.addOneOrganization===true?this.addOneOrganization=false:this.addOneOrganization=false;
+    this.addOneModule===true?this.addOneModule=false:this.addOneModule=false;
   }
 
-  addModule(){
-    console.log(this.selectedOrganization.organization_name)
+  addModule(addModuleForm:NgForm){
+    let newModule={
+      "organizationUUID":this.selectedOrganization.organization_UUID,
+      "moduleName":addModuleForm.value.module_name,
+      };
+    this.dataService.addModule(newModule).subscribe(result=>{
+      console.log(result);
+      this.dataService.clearOrganizationCache();
+      window.location.reload();
+
+    })
 
   }
 
@@ -119,19 +135,25 @@ export class AdminDashboardComponent implements OnInit {
       this.getModuleApi(organization);
     }
   }
+  
+  removeOneOrg(organization){
+    this.removeOrg=true;
+    this.addOrgChildModal.show();
+    this.orgTobeDeleted=organization;
+  }
 
-  removeOrganization(organization){
-    this.dataService.removeOrganization(organization).subscribe(response=>{
+  removeOrganization(){
+    this.dataService.removeOrganization(this.orgTobeDeleted).subscribe(response=>{
       console.log(response);
       this.dataService.clearOrganizationCache();
-      this.dataService.getOrganization();
+      this.removeOrg=false;
+      window.location.reload();
     });
   }
 
   getModuleApi(organization){
     this.dataService.getModules(organization['organization_UUID']).subscribe(data=>{
       this.modules=data;
-      // console.log(this.modules)
       if(Object.keys(this.modules).length>0){
         this.modulesPresent=true;
       }

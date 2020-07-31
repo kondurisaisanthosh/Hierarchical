@@ -21,6 +21,7 @@ export class DataService {
   public isLoading=new Subject<boolean>();
   public cacheData=new Subject<modules[]>();
   public addOrganizationError=new Subject();
+  public addModuleError=new Subject();
 
   public registerError=new Subject<string>();
 
@@ -34,6 +35,7 @@ export class DataService {
   expirationMS=5*60*1000;
   allOrganizations: any;
   orgError: any;
+  modError: any;
   
   constructor(private _http:HttpClient) { 
     this.userLoggedIn.next(false);
@@ -122,7 +124,6 @@ export class DataService {
     return this._http.post(`${addOrgUrl}${body}`,{},{responseType: 'text'} )
     .pipe(catchError(error=>{
       this.orgError=JSON.parse(error.error)
-      // console.log(this.orgError.message)
       this.addOrganizationError.next(this.orgError.message);
       return throwError(error);
     }))
@@ -134,6 +135,18 @@ export class DataService {
     return this._http.post(`${delOrgUrl}${body}`,{},{responseType:'text'});
   }
 
+  addModule(module){
+    let addModUrl=`${environment.apiUrl}/module/addModule`;
+    return this._http.post(addModUrl,module,{responseType:'text' as 'json'})
+    .pipe(catchError(error=>{
+      this.modError=JSON.parse(error.error)
+      this.addModuleError.next(this.modError.message);
+      return throwError(error);
+    }))
+  }
+  removeModule(){
+
+  }
 
 
   

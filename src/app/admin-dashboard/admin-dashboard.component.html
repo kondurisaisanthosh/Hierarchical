@@ -12,7 +12,7 @@
               <a class="col-md-3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" >{{organization.organization_name}} </a>
               <div class="col-md-3">
                 <button type="button" class="row btn-secondary">Update</button>
-                <button type="button" class="row btn-primary" (click)=removeOrganization(organization)> Remove</button>
+                <button type="button" class="row btn-primary" (click)=removeOneOrg(organization)> Remove</button>
               </div>
             </div>
             <hr>
@@ -73,6 +73,43 @@
           </div>
         </div>
       </form>
+
+      <div *ngIf="removeOrg">
+        <div class="modal-body" >
+          Are you sure,you want to delete organization "<span>{{orgTobeDeleted.organization_name}}?</span>" 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="hideChildModal()">No</button>
+          <button type="button" class="btn btn-primary" (click)="removeOrganization()">Yes</button>
+        </div>
+      </div>
+
+      <form #addModuleForm="ngForm" (ngSubmit)=addModule(addModuleForm) *ngIf="addOneModule">
+        <div class="form-group row" style="text-align: center;">
+          <label for="module_name" class="col-sm-4 col-form-label">Module </label>
+          <div class="col-sm-6">
+          <input type="text"
+            ngModel
+            required
+            class="form-control"
+            placeholder="Module name"
+            id="module_name"
+            #module_name="ngModel"
+            name="module_name">
+            <small *ngIf="!module_name.valid && module_name.touched">please enter a valid module name</small>
+          </div>
+        </div>
+        <div class="form-group" style=" text-align: center;">
+          <button type="submit"  class="btn btn-primary" [disabled]="!addModuleForm.valid" >add</button>
+        </div>
+
+        <div *ngIf="errorOccured" >          
+          <div class="alert alert-danger" style="text-align: center;">
+            <p>{{errorMessage}}!</p>
+          </div>
+        </div>
+      </form>
+
     </div>
   </div>
 </div>
