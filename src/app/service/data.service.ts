@@ -144,6 +144,8 @@ export class DataService {
       return throwError(error);
     }))
   }
+
+  
   removeModule(){
 
   }
