@@ -22,7 +22,7 @@
     "@angular/router": "~8.2.11",
     "bn-ng-idle": "^1.0.1",
     "bootstrap": "^4.5.0",
-    "browserslist": "^4.12.0",
+    "browserslist": "^4.16.5",
     "caniuse-lite": "^1.0.30001084",
     "jquery": "^3.5.1",
     "rxjs": "~6.4.0",
